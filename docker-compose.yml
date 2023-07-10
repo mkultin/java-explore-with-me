@@ -21,3 +21,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=iamroot
 
+  main-service:
+    build: main-service
+    image: main-service_image
+    container_name: main-server-container
+    ports:
+      - "8080:8080"
+
