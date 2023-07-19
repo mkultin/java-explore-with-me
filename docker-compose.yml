@@ -13,7 +13,7 @@ services:
 
   stats-db:
     image: postgres:13.7-alpine
-    container_name: postgres
+    container_name: stats-db
     ports:
       - "6541:5432"
     environment:
@@ -27,4 +27,20 @@ services:
     container_name: main-server-container
     ports:
       - "8080:8080"
+    depends_on:
+      - main-db
+      - stat-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main-svc
+      - STAT_SERVICE_URL=http://stat-service:9090
+
+  main-db:
+    image: postgres:13.7-alpine
+    container_name: main-db
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=main-svc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=iamroot
 
