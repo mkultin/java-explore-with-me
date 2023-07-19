@@ -101,8 +101,8 @@ public class EventRequestServiceImpl implements EventRequestService {
 
     @Override
     public EventRequest getById(Long requestId) {
-        EventRequest eventRequest = requestRepository.findById(requestId).
-                orElseThrow(() -> new NotFoundException("Запрос id=" + requestId + " не найден."));
+        EventRequest eventRequest = requestRepository.findById(requestId)
+                .orElseThrow(() -> new NotFoundException("Запрос id=" + requestId + " не найден."));
         log.info("Получен запрос {}.", eventRequest);
         return eventRequest;
     }
