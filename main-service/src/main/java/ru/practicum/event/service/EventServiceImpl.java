@@ -188,6 +188,7 @@ public class EventServiceImpl implements EventService {
         if (!onlyAvailable) {
             log.info("Получен список всех опубликованных событий с учетом фильтров: {} событий",
                     events.size());
+            statClientServer.saveStats(EventMapper.toEndpointHitDto(request));
             return toEventShortDtos(events);
         }
         List<EventShortDto> eventShortDtos = events.stream()

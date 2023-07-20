@@ -28,8 +28,8 @@ public class StatClientServer {
         return statsDtos.get(0).getHits();
     }
 
-    public void saveStats(EndpointHitDto endpointHitDto) {
-        statClient.save(endpointHitDto);
+    public ResponseEntity<Object> saveStats(EndpointHitDto endpointHitDto) {
+         return statClient.save(endpointHitDto);
     }
 
 
