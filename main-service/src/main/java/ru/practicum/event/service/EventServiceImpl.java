@@ -190,7 +190,6 @@ public class EventServiceImpl implements EventService {
                     events.size());
             return toEventShortDtos(events);
         }
-        statClientServer.saveStats(EventMapper.toEndpointHitDto(request));
         List<EventShortDto> eventShortDtos = events.stream()
                 .filter(event -> (event.getParticipantLimit() == 0 ||
                         event.getParticipantLimit() > getConfirmedRequests(event.getId())))
@@ -198,6 +197,7 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
         log.info("Получен список всех опубликованных событий с учетом фильтров: {} событий",
                 eventShortDtos.size());
+        statClientServer.saveStats(EventMapper.toEndpointHitDto(request));
         return eventShortDtos;
     }
 
