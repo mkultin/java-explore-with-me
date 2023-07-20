@@ -13,7 +13,7 @@ import ru.practicum.compilation.repository.CompilationRepository;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.service.EventService;
 import ru.practicum.exception.NotFoundException;
-import ru.practicum.service.CheckPagination;
+import ru.practicum.service.PaginationUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +67,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public List<CompilationDto> getCompilations(Boolean pinned, int from, int size) {
-        PageRequest pageRequest = CheckPagination.getPageByParams(from, size);
+        PageRequest pageRequest = PaginationUtil.getPageByParams(from, size);
         List<Compilation> compilations = repository.findByPinned(pinned, pageRequest);
         log.info("Получены подборки событий: {} подборок.", compilations.size());
         return compilations.stream()

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.practicum.event.enums.StateAction;
 import ru.practicum.event.model.Location;
+import ru.practicum.service.Constants;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
@@ -21,7 +22,7 @@ public class EventUpdateDto {
     @Size(min = 20, max = 7000)
     private String description;
     @Future(message = "должно содержать дату, которая еще не наступила")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.PATTERN)
     private LocalDateTime eventDate;
     private Location location;
     private Boolean paid;

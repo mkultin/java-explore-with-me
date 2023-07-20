@@ -9,7 +9,7 @@ import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.exception.AlreadyExistsException;
 import ru.practicum.exception.NotFoundException;
-import ru.practicum.service.CheckPagination;
+import ru.practicum.service.PaginationUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAllCategories(int from, int size) {
         List<Category> categories =
-                repository.findAll(CheckPagination.getPageByParamsWithSort(from, size, "id"))
+                repository.findAll(PaginationUtil.getPageByParamsWithSort(from, size, "id"))
                         .stream().collect(Collectors.toList());
         log.info("Получены список всех категорий для событий ({} шт.)", categories.size());
         return categories.stream()

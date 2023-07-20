@@ -7,6 +7,7 @@ import ru.practicum.event.enums.State;
 import ru.practicum.event.model.Event;
 import ru.practicum.request.dto.EventRequestDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,9 +30,10 @@ public interface EventService {
 
     List<EventShortDto> getEventsForPublic(String text, List<Long> categories, Boolean paid,
                                            LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                           Boolean onlyAvailable, String sort, int from, int size);
+                                           Boolean onlyAvailable, String sort, int from, int size,
+                                           HttpServletRequest request);
 
-    EventFullDto getPublishedEvent(Long eventId);
+    EventFullDto getPublishedEvent(Long eventId, HttpServletRequest request);
 
     EventRequestStatusUpdateResult updateRequests(Long requestorId, Long eventId,
                                                   EventRequestStatusUpdateRequest statusUpdateRequest);

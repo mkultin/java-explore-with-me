@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.EndpointHitDto;
-import ru.practicum.StatClient;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.service.EventService;
@@ -22,8 +20,6 @@ import static ru.practicum.service.Constants.PATTERN;
 @Slf4j
 public class EventPublicController {
     private final EventService eventService;
-    private final StatClient statClient;
-    private final String app = "main-service";
 
     @GetMapping
     public List<EventShortDto> getEventsPublic(@RequestParam(required = false) String text,
@@ -39,25 +35,13 @@ public class EventPublicController {
                                                @RequestParam(defaultValue = "10") Integer size,
                                                HttpServletRequest request) {
         log.info("Получен GET-запрос к эндпоинту /events.");
-        statClient.save(EndpointHitDto.builder()
-                .app(app)
-                .ip(request.getRemoteAddr())
-                .uri(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build());
         return eventService.getEventsForPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable,
-                sort, from, size);
+                sort, from, size, request);
     }
 
     @GetMapping("/{id}")
     public EventFullDto getEventPublic(@PathVariable Long id, HttpServletRequest request) {
         log.info("Получен GET-запрос к эндпоинту /events/{}.", id);
-        statClient.save(EndpointHitDto.builder()
-                        .app(app)
-                        .ip(request.getRemoteAddr())
-                        .uri(request.getRequestURI())
-                        .timestamp(LocalDateTime.now())
-                .build());
-        return eventService.getPublishedEvent(id);
+        return eventService.getPublishedEvent(id, request);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.exception.AlreadyExistsException;
 import ru.practicum.exception.NotFoundException;
-import ru.practicum.service.CheckPagination;
+import ru.practicum.service.PaginationUtil;
 import ru.practicum.user.dto.UserDto;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.User;
@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         } catch (RuntimeException e) {
             throw new AlreadyExistsException("Пользователь с email=" + userDto.getEmail() + " уже существует.");
         }
-
     }
 
     @Override
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> get(List<Long> userIds, int from, int size) {
-        PageRequest pageRequest = CheckPagination.getPageByParamsWithSort(from, size, "id");
+        PageRequest pageRequest = PaginationUtil.getPageByParamsWithSort(from, size, "id");
         List<User> users;
         if (userIds == null) {
             users = repository.findAll(pageRequest).toList();

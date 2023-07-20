@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import ru.practicum.exception.ValidationException;
 
 @UtilityClass
-public class CheckPagination {
+public class PaginationUtil {
     public PageRequest getPageByParams(Integer from, Integer size) {
         if (from < 0 || size < 0) throw new ValidationException("Переданы неверные параметры пагинации");
         return PageRequest.of(from > 0 ? from / size : 0, size);
