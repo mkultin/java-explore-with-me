@@ -27,7 +27,7 @@ public class EventPrivateController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public EventFullDto save(@PathVariable Long userId,
                              @RequestBody @Valid NewEventDto newEventDto) {
-        log.info("Получен POST-запрос к эндпоинту /users/{}/events.", userId);
+        log.info("Получен POST-запрос к эндпоинту /users/{}/events на добавление нового события.", userId);
         return eventService.save(newEventDto, userId);
     }
 
