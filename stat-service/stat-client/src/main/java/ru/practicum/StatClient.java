@@ -1,4 +1,4 @@
-package ru.practicum.client;
+package ru.practicum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.EndpointHitDto;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,7 +16,7 @@ public class StatClient extends BaseClient {
     private static final String API_PREFIX_GET = "/stats";
 
     @Autowired
-    public StatClient(@Value("$stat-service.url") String serverUrl, RestTemplateBuilder builder) {
+    public StatClient(@Value("${stat-service.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
@@ -31,7 +29,7 @@ public class StatClient extends BaseClient {
         return post(API_PREFIX_POST, endpointHitDto);
     }
 
-    public ResponseEntity<Object> getStats(String start, String end, List<String> uris, Boolean unique) {
+    public ResponseEntity<Object> getStats(String start, String end, String uris, Boolean unique) {
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,

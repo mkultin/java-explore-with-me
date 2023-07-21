@@ -28,8 +28,15 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<ViewStatsDto> find(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         validateTime(start, end);
-        if (unique) return repository.findViewStatsWithUnique(start, end, uris);
-        return repository.findViewStats(start, end, uris);
+        List<ViewStatsDto> statsDtos;
+        if (unique) {
+            statsDtos = repository.findViewStatsWithUnique(start, end, uris);
+            log.info("Получена uniq статистика {}", statsDtos);
+            return statsDtos;
+        }
+        statsDtos = repository.findViewStats(start, end, uris);
+        log.info("Получена статистика {}", statsDtos);
+        return statsDtos;
     }
 
     private void validateTime(LocalDateTime start, LocalDateTime end) {
