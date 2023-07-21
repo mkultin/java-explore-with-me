@@ -1,10 +1,13 @@
-package ru.practicum;
+package ru.practicum.event.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.practicum.EndpointHitDto;
+import ru.practicum.StatClient;
+import ru.practicum.ViewStatsDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

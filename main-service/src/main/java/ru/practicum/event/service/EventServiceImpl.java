@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.StatClientServer;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.service.CategoryService;
 import ru.practicum.event.dto.EventFullDto;
