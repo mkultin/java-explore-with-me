@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService {
         User initiator = userService.getUserById(userId);
         Category category = categoryService.getById(newEventDto.getCategory());
         Event event = repository.save(EventMapper.toEvent(newEventDto, initiator, category));
-        log.info("Пользвателем id={} добавлено новое событие id={}, title={}",
+        log.info("Пользвателем id={} добавлено новое событие id={}, title={}.",
                 userId, event.getId(), event.getTitle());
         return EventMapper.toEventFullDto(event, 0L, 0);
     }
