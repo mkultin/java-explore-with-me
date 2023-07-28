@@ -73,7 +73,7 @@ public class EventServiceImpl implements EventService {
         Event event = getEventById(eventId);
         if (!event.getInitiator().equals(initiator)) throw new ValidationException("Пользователь id=" + userId +
                 " не является организатором для события id=" + eventId);
-        return EventMapper.toEventFullDto(event, getViews(event), getConfirmedRequests(eventId));
+        return toReturnEventDto(event);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class EventServiceImpl implements EventService {
         Event event = repository.save(eventToUpdate);
         log.info("Пользвателем id={} обновлено событие id={}, title={}",
                 userId, event.getId(), event.getTitle());
-        return EventMapper.toEventFullDto(event, getViews(event), getConfirmedRequests(event.getId()));
+        return toReturnEventDto(event);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class EventServiceImpl implements EventService {
         }
         log.info("По указанным параметрам запроса найдено {} событий", events.size());
         return events.stream()
-                .map(event -> EventMapper.toEventFullDto(event, getViews(event), getConfirmedRequests(event.getId())))
+                .map(this::toReturnEventDto)
                 .collect(Collectors.toList());
     }
 
@@ -154,9 +154,19 @@ public class EventServiceImpl implements EventService {
                         throw new ConflictException("Событие со статусом " + eventToUpdate.getState() +
                                 " не подходит для публикации.");
                     }
+                    if (eventToUpdate.getAdminComment() != null) eventToUpdate.setAdminComment(null);
                     break;
                 case REJECT_EVENT:
                     eventToUpdate.setState(State.CANCELED);
+                    break;
+                case NEED_EDITS:
+                    eventToUpdate.setState(State.EDITS_PENDING);
+                    if (eventDto.getAdminComment() != null) {
+                        eventToUpdate.setAdminComment(eventDto.getAdminComment());
+                    } else {
+                        throw new ValidationException("Для перевода события в статус 'EDITS_PENDING' необходимо " +
+                                "наличие коммментария от администратора.");
+                    }
                     break;
                 default:
                     throw new ValidationException("Действие " + eventDto.getStateAction() +
@@ -168,7 +178,7 @@ public class EventServiceImpl implements EventService {
         EventMapper.updateEvent(eventDto, eventToUpdate);
         Event event = repository.save(eventToUpdate);
         log.info("Адмиистратором обновлено событие id={}, title={}", event.getId(), event.getTitle());
-        return EventMapper.toEventFullDto(event, getViews(event), getConfirmedRequests(event.getId()));
+        return toReturnEventDto(event);
     }
 
     @Override
@@ -280,6 +290,15 @@ public class EventServiceImpl implements EventService {
         return events.stream()
                 .map(event -> EventMapper.toEventShortDto(event, getViews(event), getConfirmedRequests(event.getId())))
                 .collect(Collectors.toList());
+    }
+
+    private EventFullDto toReturnEventDto(Event event) {
+        if (event.getAdminComment() != null) {
+            return EventMapper.toEventFullWithAdminCommentDto(event, getViews(event),
+                    getConfirmedRequests(event.getId()));
+        }
+        return EventMapper.toEventFullDto(event, getViews(event),
+                getConfirmedRequests(event.getId()));
     }
 
     private Long getViews(Event event) {

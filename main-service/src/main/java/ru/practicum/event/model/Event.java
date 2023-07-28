@@ -53,6 +53,8 @@ public class Event {
     private State state;
     @Column(nullable = false)
     private String title;
+    @Column(name = "admin_comment")
+    private String adminComment;
 
     @Override
     public boolean equals(Object o) {

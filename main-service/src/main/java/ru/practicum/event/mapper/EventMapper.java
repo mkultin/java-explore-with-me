@@ -4,10 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.EndpointHitDto;
 import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.category.model.Category;
-import ru.practicum.event.dto.EventFullDto;
-import ru.practicum.event.dto.EventShortDto;
-import ru.practicum.event.dto.EventUpdateDto;
-import ru.practicum.event.dto.NewEventDto;
+import ru.practicum.event.dto.*;
 import ru.practicum.event.enums.State;
 import ru.practicum.event.model.Event;
 import ru.practicum.user.dto.UserShortDto;
@@ -57,6 +54,31 @@ public class EventMapper {
                 .state(event.getState())
                 .confirmedRequests(requests)
                 .views(views)
+                .build();
+    }
+
+    public EventFullWithAdminCommentDto toEventFullWithAdminCommentDto(Event event, Long views, Integer requests) {
+        return EventFullWithAdminCommentDto.EventFullWithAdminCommentDtoBuilder()
+                .id(event.getId())
+                .title(event.getTitle())
+                .annotation(event.getAnnotation())
+                .description(event.getDescription())
+                .category(CategoryMapper.toCategoryDto(event.getCategory()))
+                .initiator(UserShortDto.builder()
+                        .id(event.getInitiator().getId())
+                        .name(event.getInitiator().getName())
+                        .build())
+                .eventDate(event.getEventDate())
+                .createdOn(event.getCreatedOn())
+                .publishedOn(event.getPublishedOn())
+                .location(event.getLocation())
+                .paid(event.getPaid())
+                .participantLimit(event.getParticipantLimit())
+                .requestModeration(event.getRequestModeration())
+                .state(event.getState())
+                .confirmedRequests(requests)
+                .views(views)
+                .adminComment(event.getAdminComment())
                 .build();
     }
 

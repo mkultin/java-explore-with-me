@@ -4,5 +4,5 @@ import lombok.ToString;
 
 @ToString
 public enum State {
-    PENDING, PUBLISHED, CANCELED
+    PENDING, PUBLISHED, CANCELED, EDITS_PENDING
 }
