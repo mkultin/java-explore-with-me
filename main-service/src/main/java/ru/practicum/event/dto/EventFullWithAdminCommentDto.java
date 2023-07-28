@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventFullWithAdminCommentDto extends EventFullDto{
+public class EventFullWithAdminCommentDto extends EventFullDto {
     @Size(max = 7000)
     private String adminComment;
 
