@@ -63,7 +63,7 @@ public class EventServiceImpl implements EventService {
     public Event getEventById(Long eventId) {
         Event event = repository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Событие id= " + eventId + "не найдено"));
-        log.info("Получено событие id={}, title={}", eventId, event.getTitle());
+        log.info("Получено событие id={}, title={}.", eventId, event.getTitle());
         return event;
     }
 
