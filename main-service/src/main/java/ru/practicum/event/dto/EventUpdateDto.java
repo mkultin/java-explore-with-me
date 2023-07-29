@@ -31,4 +31,6 @@ public class EventUpdateDto {
     private StateAction stateAction;
     @Size(min = 3, max = 120)
     private String title;
+    @Size(max = 7000)
+    private String adminComment;
 }

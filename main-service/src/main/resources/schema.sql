@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS events (
   participant_limit INT NOT NULL,
   request_moderation boolean NOT NULL,
   confirmed_requests INT,
-  state VARCHAR NOT NULL
+  state VARCHAR NOT NULL,
+  admin_comment VARCHAR(7000)
 );
 
 CREATE INDEX IF NOT EXISTS events_index
